@@ -33,6 +33,15 @@ def translate_mod(astree: ast.AST, kwargs: dict) -> str:
 
 
 def translate_stmt(astree: ast.AST, kwargs: dict) -> str:
+    atype = astree.__class__
+    if atype == ast.FunctionDef:
+        return stmt_mappings.translate_function_def(astree, kwargs)
+    elif atype == ast.AsyncFunctionDef:
+        return stmt_mappings.translate_async_function_def(astree, kwargs)
+    elif atype == ast.ClassDef:
+        return stmt_mappings.translate_class_def(astree, kwargs)
+    elif atype == ast.Return:
+        return stmt_mappings.translate_return(astree, kwargs)
     return ""
 
 
