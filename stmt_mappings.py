@@ -26,8 +26,7 @@ def translate_async_function_def(astree: ast.AsyncFunctionDef, kwargs: dict) -> 
 def translate_class_def(astree: ast.ClassDef, kwargs: dict) -> str:
     name = astree.identifier
     # TODO: Keywords, decorators, inheritance ("bases")
-    classtext = 'struct ' + name + ';\n'
-    classtext = 'impl ' + name + ' {\n'
+    classtext = 'struct ' + name + ';\nimpl ' + name + ' {\n'
     classtext = classtext.join(['   ' + compiler.translate_stmt(x, kwargs) for x in astree.body])
     return classtext + '\n}\n'
 
