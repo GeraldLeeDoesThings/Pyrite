@@ -18,13 +18,13 @@ def parse_file(filename: str) -> ast.AST:
                          type_comments=True)
 
 
-def translate_mod(astree: ast.AST, **kwargs) -> str:
+def translate_mod(astree: ast.AST, kwargs: dict) -> str:
     return ""
 
 
-def translate_stmt(astree: ast.AST, **kwargs) -> str:
+def translate_stmt(astree: ast.AST, kwargs: dict) -> str:
     return ""
 
 
-def translate_expr(astree: ast.AST, **kwargs) -> str:
+def translate_expr(astree: ast.AST, kwargs: dict) -> str:
     return ""
