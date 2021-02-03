@@ -1,4 +1,7 @@
 import ast
+import mod_mappings
+import stmt_mappings
+import expr_mappings
 
 
 typemappings = dict(
@@ -19,6 +22,13 @@ def parse_file(filename: str) -> ast.AST:
 
 
 def translate_mod(astree: ast.AST, kwargs: dict) -> str:
+    atype = astree.__class__
+    if atype == ast.Module:
+        return mod_mappings.translate_module(astree, kwargs)
+    elif atype == ast.Interactive:
+        return mod_mappings.translate_interactive(astree, kwargs)
+    elif atype == ast.Expression:
+        return mod_mappings.translate_expression(astree, kwargs)
     return ""
 
 
