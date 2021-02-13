@@ -1,5 +1,6 @@
 import ast
 import compiler
+import warnings
 
 
 def translate_function_def(astree: ast.FunctionDef, kwargs: dict) -> str:
@@ -34,3 +35,25 @@ def translate_class_def(astree: ast.ClassDef, kwargs: dict) -> str:
 def translate_return(astree: ast.Return, kwargs: dict) -> str:
     return 'return ' + compiler.translate_expr(astree.value, kwargs) + ';\n'
 
+
+def translate_delete(astree: ast.Delete, kwargs: dict) -> str:
+    warnings.warn("Keyword del is not supported")  # TODO: Make more descriptive
+    return ''
+
+
+def translate_assign(astree: ast.Assign, kwargs: dict) -> (str, dict):
+    var_table = kwargs.get('var_table', default=set())
+    targets = []
+    value = compiler.translate_expr(astree.value, kwargs)
+    result = ''
+    for target in astree.targets:
+        name = compiler.translate_expr(target, kwargs)
+        targets.append(name)
+        if name in var_table:
+            result = result + name + ' = ' + value + ';\n'
+        else:
+            # TODO: Detect constants
+            result = result + 'let mut ' + name + ' = ' + value + ';\n'
+            var_table.add(name)
+            kwargs['var_table'] = var_table
+    return result, kwargs
